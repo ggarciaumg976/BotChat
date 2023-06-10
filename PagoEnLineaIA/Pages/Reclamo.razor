@@ -1,0 +1,82 @@
+﻿@page "/reclamo"
+
+@using System.Collections;
+@using PagoEnLineaIA.Entidades;
+@using Servicios;
+@inject IReclamoServicio ReclamoServicios
+
+<RadzenStack AlignItems="AlignItems.Center" Class="rz-mx-auto rz-my-12">
+    <RadzenImage Path="/EnergyBot.png" Style="width: 15rem;" />
+</RadzenStack>
+
+
+@if (vreclamos == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <RadzenTemplateForm Data="@vreclamos">
+        <div class="row">
+            <div class="col-10">
+                <RadzenFieldset Text="Ingreso de Reclamos" >
+                    <div class="row">
+                        <div class="col-md-2 align-items-center d-flex">
+                            <RadzenLabel Text="Codigo Cliente" />
+                        </div>
+                        <div class="col-6">
+                            <RadzenNumeric Name="CodigoCliente" Style="width:100%" @bind-Value="vreclamos.idCliente" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 align-items-center d-flex">
+                            <RadzenLabel Text="Numero Contador" />
+                        </div>
+                        <div class="col-6">
+                            <RadzenTextBox Name="contador" Style="width:100%" @bind-Value="vreclamos.contador" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 align-items-center d-flex">
+                            <RadzenLabel Text="Numero Correlativo" />
+                        </div>
+                        <div class="col-6">
+                            <RadzenTextBox Name="correlativo" Style="width:100%" @bind-Value="vreclamos.correlativo" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 align-items-center d-flex">
+                            <RadzenLabel Text="Comentario" />
+                        </div>
+                        <div class="col-6">
+                            <RadzenTextArea Name="comentario" Cols="30" Rows="3" Style="width:100%" @bind-Value="vreclamos.comentario" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 align-items-center d-flex" />
+                        <div class="col-6">
+                            <RadzenButton Text="Guardar" ButtonStyle="ButtonStyle.Secondary" Click="Guardar" />
+                        </div>
+                    </div>
+                </RadzenFieldset>
+            </div>
+        </div>
+    </RadzenTemplateForm>
+}
+
+
+@code
+{
+    Reclamos vreclamos = new Reclamos();
+
+    protected async Task Guardar()
+    {
+        vreclamos.estadoReclamo = "1";
+        await ReclamoServicios.InsertReclamos(vreclamos);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+}

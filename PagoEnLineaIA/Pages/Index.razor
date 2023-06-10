@@ -1,0 +1,67 @@
+﻿@page "/"
+@page "/PagoEnLinea/{saldo}"
+@using System.Collections;
+
+
+<h3>Pago en Linea</h3>
+<RadzenStack AlignItems="AlignItems.Center" Class="rz-mx-auto rz-my-12">
+    <RadzenImage Path="/TarjetaCredito.png" Style="width: 15rem;" />
+</RadzenStack>
+<div Class="rz-p-0 rz-p-md-12">
+    <RadzenRow Gap="1rem">
+        <RadzenColumn Size="12" SizeSM="6">
+            <RadzenStack>
+                <RadzenFormField Text="No. Tarjeta">
+                    <Start>
+                        <RadzenIcon Icon="credit_card" />
+                    </Start>
+                    <ChildContent>
+                        <RadzenMask Mask="**** **** **** ****" CharacterPattern="[0-9]" Placeholder="0000 0000 0000 0000" Name="CardNr" />
+                    </ChildContent>
+                </RadzenFormField>
+                <RadzenFormField Text="Nombre Tarjeta" Variant="@variant">
+                    <RadzenTextBox @bind-Value="@valueNombre" />
+                </RadzenFormField>
+                <RadzenFormField Text="Fecha expiracion" Variant="@variant">
+                    <RadzenTextBox @bind-Value="@value" Mask="**/**" CharacterPattern="[0-9]" Placeholder="00/00" />
+                </RadzenFormField>
+                <RadzenFormField Text="Codigo de Seguridad" Variant="@variant">
+                    <RadzenPassword @bind-Value="@value" />
+                </RadzenFormField>
+                <RadzenFormField Text="Monto" Variant="@variant">
+                    <RadzenNumeric @bind-Value="@saldo" ReadOnly="true" />
+                </RadzenFormField>
+                <RadzenFormField Text="Correo Electronico" Variant="@variant">
+                    <RadzenTextBox Style="display:block" @bind-Value="@valueEmail" Placeholder="Ingrese su correo electrónico" class="w-100"/>
+                    <RadzenRequiredValidator Component="Email" Text="Email is required" />
+                    <RadzenEmailValidator Component="Email" Text="Ingrese correo valido"  />
+                </RadzenFormField>
+                <RadzenFormField>
+                    <RadzenButton Text="Efectuar Pago" ButtonStyle="ButtonStyle.Primary" />
+                </RadzenFormField>
+            </RadzenStack>
+        </RadzenColumn>
+    </RadzenRow>
+</div>
+
+@code
+{
+    [Parameter]
+    public string saldo   { get; set; }
+    public string contado { get; set; }
+    Variant variant = Variant.Outlined;
+    string value = "Text";
+    string valueEmail = "Ingreso su correo electronico";
+    string valueNombre = "Ingrese el nombre que aparece en la tarjeta";
+    int intValue = 123;
+
+    protected async Task Pago()
+    {
+        
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+}
